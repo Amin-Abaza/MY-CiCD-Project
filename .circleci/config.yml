@@ -1,5 +1,6 @@
 version: 2.1
 orbs: 
+  node: 'circleci/node:4.1'
   slack: circleci/slack@4.10.1
 jobs:
   build-frontend:
@@ -91,8 +92,8 @@ jobs:
             npm audit fix --force
             npm audit --audit-level=critical
   deploy-notify-by-slack:
-    docker:
-      image: 'cimg/base:stable'
+    executor:
+      name: node/default
     steps:
       - checkout
       - node/install-packages
