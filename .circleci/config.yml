@@ -84,7 +84,7 @@ jobs:
           keys: [backend-build]
       - run:
           name: "analyze backend-code"
-          #command: |
+          command: |
             cd backend
             npm install
             npm audit fix --audit-level=critical --force
@@ -98,6 +98,10 @@ jobs:
           channel: circleciproject
           event: fail
           template: basic_fail_1
+      - slack/notify:
+          channel: circleciproject
+          event: pass
+          template: success_tagged_deploy_1
 
 
 
