@@ -95,7 +95,7 @@ jobs:
       - image: 'cimg/base:stable'
     steps:
       - slack/notify:
-          channel: CircleCi-Project
+          channel: circleciproject
           event: fail
           template: basic_fail_1
 
