@@ -96,7 +96,7 @@ jobs:
         name: node/default
     steps:
       - checkout
-      
+      - install-packages
       - run:
           command: npm run deploy
       - slack/notify:
