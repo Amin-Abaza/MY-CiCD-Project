@@ -84,7 +84,7 @@ jobs:
           keys: [backend-build]
       - run:
           name: "analyze backend-code"
-          command: |
+          #command: |
             cd backend
             npm install
             npm audit fix --audit-level=critical --force
