@@ -92,7 +92,7 @@ jobs:
             npm audit --audit-level=critical
   deploy-notify-by-slack:
     docker:
-      image: cimg/base:stable
+      image: 'cimg/base:stable'
     steps:
       - checkout
       - node/install-packages
