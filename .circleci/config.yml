@@ -79,5 +79,5 @@ workflows:
             build-frontend
       - test-backend:
           requires:
-            biuld-backend
+            build-backend
 
