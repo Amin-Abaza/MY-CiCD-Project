@@ -92,7 +92,7 @@ jobs:
             npm audit --audit-level=critical
   deploy-notify-by-slack:
     docker:
-      image: circleci/node:4.1
+      image: cimg/base:stable
     steps:
       - checkout
       - node/install-packages
