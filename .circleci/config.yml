@@ -1,6 +1,5 @@
 version: 2.1
 orbs: 
-  node: 'circleci/node:4.1'
   slack: circleci/slack@4.10.1
 jobs:
   build-frontend:
@@ -92,13 +91,9 @@ jobs:
             npm audit fix --force
             npm audit --audit-level=critical
   deploy-notify-by-slack:
-    executor:
-      name: node/default
+    docker:
+      - image: 'cimg/base:stable'
     steps:
-      - checkout
-      - node/install-packages
-      - run:
-          command: npm run deploy
       - slack/notify:
           channel: CircleCi-Project
           event: fail
