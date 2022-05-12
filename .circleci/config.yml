@@ -146,11 +146,9 @@ jobs:
              apk add tar && apk add gzip
              apk update && apk add --no-cache musl-dev libffi-dev openssl-dev make gcc python py2-pip python-dev
              pip install cffi
-             sudo apt-get -y install python3-pip
+             apt-get -y install python3-pip
              pip install ansible
-             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-             unzip awscliv2.zip
-             sudo ./aws/install
+             apk add aws-cli
       - run: 
           name: Configure server
           command: |
