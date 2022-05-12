@@ -105,8 +105,8 @@ jobs:
       - checkout
       - run: 
           command: |
-            sudo yum install tar
-            sudo yum install gzip
+            yum -y install tar
+            yum -y install gzip
       - run:
           name: "Ensure back-end infrastructure exist"
           command: |
