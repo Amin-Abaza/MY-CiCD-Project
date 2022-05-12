@@ -143,7 +143,14 @@ jobs:
           name: "Install dependecies"
           command: |
              yum -y install tar && yum -y install gzip
+             apk update && apk add python3-dev \
+             gcc \
+             libc-dev \
+             libffi-dev
              pip install --user ansible
+             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+             unzip awscliv2.zip
+             sudo ./aws/install
       - run: 
           name: Configure server
           command: |
@@ -156,7 +163,7 @@ jobs:
       - checkout
       - restore_cache:
           keys: [backend-build]
-
+          
 
 
 
