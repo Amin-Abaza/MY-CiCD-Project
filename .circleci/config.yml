@@ -144,10 +144,8 @@ jobs:
           command: |
              apk update
              apk add tar && apk add gzip
-             apk update && apk add python3-dev \
-             gcc \
-             libc-dev \
-             libffi-dev
+             apk update && apk add --no-cache musl-dev libffi-dev openssl-dev make gcc python py2-pip python-dev
+             pip install cffi
              pip install --user ansible
              curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
              unzip awscliv2.zip
