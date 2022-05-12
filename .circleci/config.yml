@@ -104,9 +104,9 @@ jobs:
     steps:
       - checkout
       - run: 
-        command: |
-          install tar
-          install gzip
+          command: |
+            install tar
+            install gzip
       - run:
           name: "Ensure back-end infrastructure exist"
           command: |
