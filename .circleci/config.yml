@@ -126,9 +126,9 @@ jobs:
              --query 'Reservations[*].Instances[*].PublicIpAddress' \
              --output text >> inventory.txt
       - persist_to_workspace:
-          root: ~/
+          root: ./
           paths:
-            - MY-CiCD-Project/.circleci/ansible/inventory.txt
+            - .circleci/ansible/inventory.txt
       - destroy-environment
   configure-infrastructure:
     docker:
@@ -138,7 +138,7 @@ jobs:
       - add_ssh_keys:
           fingerprints: ["6c:f2:39:0d:f3:63:6e:4a:90:cd:8e:d0:8c:50:a9:e4"]
       - attach_workspace:
-          at: ~/
+          at: ./
       - run:
           name: "Install dependecies"
           command: |
