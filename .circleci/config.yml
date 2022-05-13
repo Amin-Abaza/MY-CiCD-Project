@@ -126,9 +126,9 @@ jobs:
              --query 'Reservations[*].Instances[*].PublicIpAddress' \
              --output text >> inventory.txt
       - persist_to_workspace:
-          root: ~/.circleci
+          root: ~/
           paths:
-            - ansible/inventory.txt
+            - circleci/ansible/inventory.txt
       - destroy-environment
   configure-infrastructure:
     docker:
