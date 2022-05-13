@@ -170,11 +170,10 @@ jobs:
           name: Run migrations
           command: |
               cd backend
-              npm install
+              npm install --force
               npm audit fix
               npm audit fix --force
-              npm audit fix --audit-level=critical --force
-              npm audit --audit-level=critical
+             
               npm run migrations > migrations_dump.txt
 #Run and save the migration output
       - run:
@@ -197,7 +196,7 @@ jobs:
       - run:
           name: install python
           command: |
-            UN apt-get update && \
+            apt-get update && \
             apt-get install -y \
             python3 \
             python3-pip \
@@ -207,6 +206,7 @@ jobs:
             && pip3 install --upgrade pip \
             && apt-get clean
       - run: pip3 --no-cache-dir install --upgrade awscli
+      - run: pip install ansible
 
 
 
