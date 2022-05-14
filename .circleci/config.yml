@@ -210,8 +210,15 @@ jobs:
           name: install python
           command: |
            yum install -y python3
+      - run: 
+          name: "install NPM"
+          command: yum install -y npm
+
       - run: pip3 --no-cache-dir install --upgrade awscli
       - run: pip3 install ansible
+      - run: 
+          name: "install Node"
+          command: yum install -y node
       
       - run: 
           name: "Get URL for backend-instance"
