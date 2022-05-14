@@ -9,6 +9,24 @@ commands:
           command: |
             aws cloudformation delete-stack --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
             aws cloudformation delete-stack --stack-name udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
+
+  revert-migrations:
+    description: Revert the last migration if successfully run in the current workflow.    
+    steps:
+      - run:
+          name: Revert migrations
+          # Add when this will run
+          when: on_fail
+          command: |
+            curl https://kvdb.io/Bz2gjfUZDbbMcVGw1vHdTB/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
+            if(( $SUCCESS==1 )); 
+            then
+              cd ~/project/backend
+              npm install
+            #  Add revert code here. You can find this in the Getting Started section.
+              exit 1
+            fi
+
 jobs:
   build-frontend:
     docker:
@@ -204,7 +222,29 @@ jobs:
             && apt-get clean
       - run: pip3 --no-cache-dir install --upgrade awscli
       - run: pip install ansible
-
+      
+      - run: 
+          name: "Get URL for backend-instance"
+          command: |
+             export BACKEND_IP=$(aws ec2 describe-instances \
+             --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+             --query 'Reservations[*].Instances[*].PublicIpAddress' \
+             --output text)
+             export API_URL="http://${BACKEND_IP}:3030"
+             echo "API_URL = ${API_URL}"
+             echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
+             cat frontend/.env
+      - run: 
+          name: "Deploy front end object"
+          command: |
+              cd frontend
+              yum -y install tar
+              npm install
+              npm run build
+              tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
+              aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
+      - destroy-environment
+      - revert-migrations
 
 
 
@@ -232,5 +272,7 @@ workflows:
           requires: [deploy-infrastructure]
       - run-migrations:
           requires: [configure-infrastructure]
+      - deploy-frontend:
+          requires: [run-migrations]
 
 
