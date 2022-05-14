@@ -216,7 +216,9 @@ jobs:
       - run: pip3 install ansible
       - run: 
           name: "install Node"
-          command: yum install -y node
+          command: |
+              curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash -
+              sudo yum install nodejs
       
       - run: 
           name: "Get URL for backend-instance"
