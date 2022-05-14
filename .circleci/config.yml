@@ -200,47 +200,15 @@ jobs:
               fi              
   deploy-frontend:
     docker:
-      - image: amazon/aws-cli
+      - image: cimg/base:2022.04
     steps:
       - checkout
-      - run: yum -y install tar && yum -y install gzip
+      - install_awscli
+      - install_ansible
+      - install_
       - attach_workspace:
           at: ~/
 
-      - run:
-          name: install python
-          command: |
-            apt-get update && \
-            apt-get install -y \
-            python3 \
-            python3-pip \
-            python3-setuptools \
-            groff \
-            less \
-            && pip3 install --upgrade pip \
-            && apt-get clean
-      - run: pip3 --no-cache-dir install --upgrade awscli
-      - run: pip install ansible
-      
-      - run: 
-          name: "Get URL for backend-instance"
-          command: |
-             export BACKEND_IP=$(aws ec2 describe-instances \
-             --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-             --query 'Reservations[*].Instances[*].PublicIpAddress' \
-             --output text)
-             export API_URL="http://${BACKEND_IP}:3030"
-             echo "API_URL = ${API_URL}"
-             echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
-             cat frontend/.env
-      - run: 
-          name: "Deploy front end object"
-          command: |
-              cd frontend
-              npm install
-              npm run build
-              tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
-              aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       - destroy-environment
       - revert-migrations
 
