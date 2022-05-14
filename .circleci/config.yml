@@ -210,8 +210,6 @@ jobs:
           name: install python
           command: |
            yum install -y python3
-
-
       - run: pip3 --no-cache-dir install --upgrade awscli
       - run: pip3 install ansible
       - run: 
@@ -243,7 +241,47 @@ jobs:
               aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       - destroy-environment
       - revert-migrations
-
+  deploy-backend:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["6c:f2:39:0d:f3:63:6e:4a:90:cd:8e:d0:8c:50:a9:e4"]
+      - attach_workspace:
+          at: ~/
+      - restore_cache:
+          keys: [backend-build]
+      - run:
+          name: "Install dependecies"
+          command: |
+             apk update
+             apk add tar && apk add gzip
+             apk add --update ansible
+             apk add --no-cache \
+             python3 \
+             py3-pip \
+             && pip3 install --upgrade pip \
+             && pip3 install --no-cache-dir \
+             awscli \
+             && rm -rf /var/cache/apk/*
+      - run: apk add npm nodejs
+      - run: 
+          name: "deploy backend"
+          command: |
+            cd backend
+            npm i
+            npm run build
+            cd ..
+            tar -C backend -czvf artifact.tar.gz .
+            cp artifact.tar.gz .circleci/ansible
+            cd .circleci/ansible
+            echo "Contents  of the inventory.txt file is -------"
+            cat inventory.txt
+            ansible-playbook -i inventory.txt deploy-backend.yml
+      - destroy-environment
+      - revert-migrations
+      
 
 
 
