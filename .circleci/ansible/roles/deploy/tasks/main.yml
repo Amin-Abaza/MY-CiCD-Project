@@ -1,0 +1,21 @@
+---
+- name: create directory for unarchive files
+  become: true
+  file:
+    path: ~/.circleci/ansible/unarchive
+    state: directory
+- name : unarchive files
+  become: true
+  unarchive:
+      src: artifact.tar.gz
+      des: ~/.circleci/ansible/unarchive
+- name: install npm
+  become: true
+  shell: |
+    cd ~/.circleci/ansible/unarchive
+    npm install
+- name: start services
+  become: true
+  shell: |
+    pm2 stop default
+    pm2 start npm -- start
