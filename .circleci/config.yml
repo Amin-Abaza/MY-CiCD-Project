@@ -203,6 +203,7 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
+      - run: yum -y install tar
       - attach_workspace:
           at: ~/
       - run:
@@ -238,7 +239,6 @@ jobs:
           name: "Deploy front end object"
           command: |
               cd frontend
-              yum -y install tar
               npm install
               npm run build
               tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
