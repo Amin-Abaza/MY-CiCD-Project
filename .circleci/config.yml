@@ -208,7 +208,7 @@ jobs:
           at: ~/
       - run:
           name: install npm
-          command: apt -y install npm
+          command: yum -y install npm
       - run:
           name: install python
           command: |
