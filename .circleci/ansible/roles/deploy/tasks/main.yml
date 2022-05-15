@@ -6,7 +6,7 @@
     state: directory
 - name: copy backendfile
   become: true
-    copy:
+    cp:
       src: artifact.tar.gz 
       dest: ~/.circleci/ansible/unarchive
 - name : unarchive files
