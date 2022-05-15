@@ -7,7 +7,7 @@
 - name: copy files
   become: true
   template:
-      src: artifact.tar.gz 
+      src: .circleci/ansible/artifact.tar.gz 
       dest: ~/unarchive
 - name : unarchive files
   become: true
