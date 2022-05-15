@@ -5,7 +5,8 @@
     path: ~/.circleci/ansible/unarchive
     state: directory
 - name: copy files
-  cp:
+  become: true
+  template:
       src: artifact.tar.gz 
       dest: ~/.circleci/ansible/unarchive
 - name : unarchive files
