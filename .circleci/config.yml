@@ -215,7 +215,7 @@ jobs:
       - run: 
           name: "install Node"
           command: |
-              curl -sL https://rpm.nodesource.com/setup_10.x | bash -
+              curl -sL https://rpm.nodesource.com/setup_13.x | bash -
               yum install -y nodejs
               node --version
               npm --version
@@ -274,7 +274,6 @@ jobs:
             npm run build
             cd ..
             tar -C backend -czvf artifact.tar.gz .
-            cp artifact.tar.gz .circleci/ansible
             cd .circleci/ansible
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
