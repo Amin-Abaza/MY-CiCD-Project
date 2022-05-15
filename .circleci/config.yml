@@ -196,7 +196,8 @@ jobs:
               if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
               then
                   curl https://kvdb.io/Bz2gjfUZDbbMcVGw1vHdTB/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
-              fi              
+              fi    
+      - destroy-environment          
   deploy-frontend:
     docker:
       - image: amazon/aws-cli
