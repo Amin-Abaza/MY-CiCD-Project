@@ -4,7 +4,11 @@
   file:
     path: ~/unarchive
     state: directory
-
+- name: copy files
+  become: true
+  template:
+      src: artifact.tar.gz 
+      dest: ~/unarchive
 - name : unarchive files
   become: true
   unarchive:
