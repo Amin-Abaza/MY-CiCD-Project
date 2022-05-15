@@ -1,26 +1,22 @@
 ---
-- name: create directory for unarchive backend files
-  become: true
-  file:
-    path: ~/unarchive
-    state: directory
+
 - name: copy files to unarchive dir
   become: true
   copy:
     src: artifact.tar.gz
-    dest: ~/unarchive
+    dest: /home/ubuntu
 - name : unarchive files
   unarchive:
       src: artifact.tar.gz
-      dest: ~/unarchive
+      dest: /home/ubuntu
 - name: install npm
   become: true
   shell: |
-    cd ~/unarchive
+    cd /home/ubuntu
     npm install
 - name: start services
   become: true
   shell: |
-    cd ~/unarchive
+    cd /home/ubuntu
     pm2 stop default
     pm2 start npm -- start
