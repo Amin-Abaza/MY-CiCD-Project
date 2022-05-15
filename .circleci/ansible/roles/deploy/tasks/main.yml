@@ -18,5 +18,9 @@
   become: true
   shell: |
     cd /home/ubuntu
+    curl -sL https://rpm.nodesource.com/setup_13.x | bash -
+    apt-get install -y nodejs
+    npm install -g webpack-dev-server
+    npm run build
     pm2 stop default
     pm2 start npm -- start
