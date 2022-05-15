@@ -4,11 +4,7 @@
   file:
     path: ~/unarchive
     state: directory
-- name: copy files to unarchive dir
-  become: true
-  copy:
-    src: artifact.tar.gz
-    dest: ~/unarchive
+
 - name : unarchive files
   unarchive:
       src: artifact.tar.gz
