@@ -2,24 +2,36 @@
 - name: create directory for unarchive backend files
   become: true
   file:
-    path: /unarchive
+    path: ~/unarchive
     state: directory
 - name: copy files to unarchive dir
+  become: true
   copy:
     src: artifact.tar.gz
-    dest: /unarchive
+    dest: ~/unarchive
 - name : unarchive files
   unarchive:
       src: artifact.tar.gz
-      dest: /unarchive
+      dest: ~/unarchive
 - name: install npm
   become: true
   shell: |
-    cd /unarchive
+    cd ~/unarchive
     npm install
 - name: start services
   become: true
   shell: |
-    cd /unarchive
+    cd ~/unarchive
     pm2 stop default
     pm2 start npm -- start
+
+  environment:
+      - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION')}}"  
+      - TYPEORM_ENTITIES: "{{ lookup('env', 'TYPEORM_ENTITIES')}}"
+      - TYPEORM_HOST: "{{ lookup('env', 'TYPEORM_HOST')}}"
+      - TYPEORM_PORT: 5432
+      - TYPEORM_USERNAME: "{{ lookup('env', 'TYPEORM_USERNAME')}}"
+      - TYPEORM_PASSWORD: "{{ lookup('env', 'TYPEORM_PASSWORD')}}"
+      - TYPEORM_DATABASE: "{{ lookup('env', 'TYPEORM_DATABASE')}}"
+      - TYPEORM_MIGRATIONS: "{{ lookup('env', 'TYPEORM_MIGRATIONS')}}"
+      - TYPEORM_MIGRATIONS_DIR: "{{ lookup('env', 'TYPEORM_MIGRATIONS_DIR')}}"
