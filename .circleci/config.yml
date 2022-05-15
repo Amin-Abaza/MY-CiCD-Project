@@ -176,6 +176,7 @@ jobs:
           command: |
             cd .circleci/ansible
             ansible-playbook -i inventory.txt configure-server.yml
+      - destroy-environment
       
   run-migrations:
     docker:
@@ -198,7 +199,8 @@ jobs:
               then
                   curl https://kvdb.io/Bz2gjfUZDbbMcVGw1vHdTB/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
               fi    
-      - destroy-environment          
+      - destroy-environment
+      - revert-migrations          
   deploy-frontend:
     docker:
       - image: amazon/aws-cli
@@ -291,7 +293,7 @@ jobs:
       - revert-migrations
   smoke-test:
     docker:
-      - image: alpine3.11
+      - image: python:3.7-alpine3.11
     steps:
       - run: 
           name: "install dependecies"
