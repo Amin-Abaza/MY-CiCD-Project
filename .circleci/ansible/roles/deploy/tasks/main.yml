@@ -4,9 +4,7 @@
   file:
     path: /unarchive
     state: directory
-- name: copy file to unarchive directory
-  shell:
-    cp .circleci/ansible/roles/deploy/files/artifact.tar.gz /unarchive
+
 - name : unarchive files
   unarchive:
       src: artifact.tar.gz
