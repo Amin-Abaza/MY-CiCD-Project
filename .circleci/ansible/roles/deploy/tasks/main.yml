@@ -4,6 +4,10 @@
   file:
     path: /unarchive
     state: directory
+- name: copy file to unarchive directory
+  template:
+    src: artifact.tar.gz
+    dest: /unarchive
 - name : unarchive files
   unarchive:
       src: artifact.tar.gz
