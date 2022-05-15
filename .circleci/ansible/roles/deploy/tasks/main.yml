@@ -4,11 +4,16 @@
   file:
     path: ~/.circleci/ansible/unarchive
     state: directory
+- name: copy backendfile
+  become: true
+    copy:
+      src: artifact.tar.gz 
+      dest: ~/.circleci/ansible/unarchive
 - name : unarchive files
   become: true
   unarchive:
       src: artifact.tar.gz
-      des: ~/.circleci/ansible/unarchive
+      dest: ~/.circleci/ansible/unarchive
 - name: install npm
   become: true
   shell: |
