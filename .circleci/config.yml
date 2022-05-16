@@ -260,11 +260,34 @@ jobs:
       - run: 
           name: "install dependencies"
           command: |
-            sudo apt-get update && apt-get install tar gzip
-            sudo apt-get install python3 -y
-            sudo apt-get install ansible -y
-            sudo apt-get install awscli -y
+            sudo apt-get update && sudo apt-get install tar gzip
+            sudo apt-get install -y python3 
+            sudo apt-get install -y ansible 
+            sudo apt-get install -y awscli 
+            npm install
 
+
+      - run: 
+          name: "deploy backend"
+          command: |
+            cd backend
+            npm i
+            npm run build
+            cd ..
+            tar -C backend -czvf artifact.tar.gz .
+            cp artifact.tar.gz .circleci/ansible/roles/deploy/files
+            cd .circleci/ansible/roles/deploy/files
+            pwd
+            ls
+      - run: 
+          name: "deploy backend 2"
+          command: | 
+            cd .circleci/ansible
+            echo "Contents  of the inventory.txt file is -------"
+            cat inventory.txt
+            ansible-playbook -i inventory.txt deploy-backend.yml
+      - destroy-environment
+      - revert-migrations
   smoke-test:
     docker:
       - image: python:3.7-alpine3.11
@@ -339,8 +362,8 @@ workflows:
           requires: [deploy-infrastructure]
       - run-migrations:
           requires: [configure-infrastructure]
-      - deploy-frontend:
-          requires: [run-migrations]
+      #- deploy-frontend:
+       #   requires: [run-migrations]
       - deploy-backend:
           requires: [run-migrations]
       - smoke-test:
