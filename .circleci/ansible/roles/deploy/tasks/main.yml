@@ -1,28 +1,24 @@
 ---
-- name: "create dir for backendfile"
-  become: true
-  file:
-    path: ~/website
-    state: directory
+
 - name: copy files to unarchive dir
   become: true
   copy:
     src: artifact.tar.gz
-    dest: ~/website
+    dest: /home/ubuntu
 - name : unarchive files
   unarchive:
       src: artifact.tar.gz
-      dest: ~/website
+      dest: /home/ubuntu
 - name: install npm
   become: true
   shell: |
-    cd ~/website
+    cd /home/ubuntu
     npm install
 - name: start services
   become: true
   shell: |
-    cd ~/website
-    apt -y update && apt -y upgrade
+    cd /home/ubuntu
+    sudo apt -y update && apt -y upgrade
     curl -sL https://deb.nodesource.com/setup_13.x | sudo bash -
     apt-get install -y nodejs
     npm install -g webpack-dev-server
