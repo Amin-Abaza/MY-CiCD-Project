@@ -29,13 +29,7 @@
           apt -y update && apt -y upgrade
           get_url -sL https://deb.nodesource.com/setup_13.x | sudo bash -
           apt-get install -y nodejs
-    - name: "install npm"
-      become: true
-      shell: npm install
-    - name: "install pm2"
-      become: true
-      shell: |
-           npm i -g pm2
+
   # Get the environment variables from CircleCI and add to the EC2 instance
   environment:
     - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION')}}"  
