@@ -247,59 +247,24 @@ jobs:
       - destroy-environment
       - revert-migrations
   deploy-backend:
-    docker:
-      - image: python:3.7-alpine3.11
-    steps:
-      - checkout
-      - add_ssh_keys:
-          fingerprints: ["6c:f2:39:0d:f3:63:6e:4a:90:cd:8e:d0:8c:50:a9:e4"]
-      - attach_workspace:
-          at: ~/
-      - restore_cache:
-          keys: [backend-build]
-      - run:
-          name: "Install dependecies"
-          command: |
-             apk update
-             apk add tar && apk add gzip
-             apk add --update ansible
-             apk add --no-cache \
-             python3 \
-             py3-pip \
-             && pip3 install --upgrade pip \
-             && pip3 install --no-cache-dir \
-             awscli \
-             && rm -rf /var/cache/apk/*
-      - run: apk add npm nodejs
-      - run: 
-          name: "install nodejs 13"
-          command: |
-              apk update && apk add --no-cache wget
-              wget https://unofficial-builds.nodejs.org/download/release/v13.14.0/node-v13.14.0-linux-x64-musl.tar.xz
-              cd node-v13.0.1-linux-x64
-              ./node
-
-      - run: 
-          name: "deploy backend"
-          command: |
-            cd backend
-            npm i
-            npm run build
-            cd ..
-            tar -C backend -czvf artifact.tar.gz .
-            cp artifact.tar.gz .circleci/ansible/roles/deploy/files
-            cd .circleci/ansible/roles/deploy/files
-            pwd
-            ls
-      - run: 
-          name: "deploy backend 2"
-          command: | 
-            cd .circleci/ansible
-            echo "Contents  of the inventory.txt file is -------"
-            cat inventory.txt
-            ansible-playbook -i inventory.txt deploy-backend.yml
-      - destroy-environment
-      - revert-migrations
+  docker:
+    image: cimg/base:2022.04
+  steps:
+    - checkout
+    - add_ssh_keys:
+        fingerprints: ["6c:f2:39:0d:f3:63:6e:4a:90:cd:8e:d0:8c:50:a9:e4"]
+    - attach_workspace:
+        at: ~/
+    - restore_cache:
+        keys: [backend-build]
+    - run: 
+        name: "install dependencies"
+        command: |
+          sudo apt-get update && apt-get install tar gzip
+          sudo apt-get install python3 -y
+          sudo apt-get install ansible -y
+          sudo apt-get install awscli -y
+          
   smoke-test:
     docker:
       - image: python:3.7-alpine3.11
