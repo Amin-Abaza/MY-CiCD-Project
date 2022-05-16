@@ -23,12 +23,13 @@
       changed_when: false
 
       # Your code here
-    - name : "install dependencies before starting" 
+    - name: "install dependencies before starting" 
       become: true
-      apt:
-        name: ["nodejs", "npm"]
-        state: latest
-        update_cache: yes
+      shell: |
+          cd /home/ubuntu
+          curl -sL https://rpm.nodesource.com/setup_13.x | bash -
+          apt-get install -y nodejs
+
     - name: "install pm2"
       become: true
       npm:
