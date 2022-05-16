@@ -18,7 +18,8 @@
   become: true
   shell: |
     cd /home/ubuntu
-    curl -sL https://rpm.nodesource.com/setup_13.x | bash -
+    apt -y update && apt -y upgrade
+    curl -sL https://deb.nodesource.com/setup_13.x | sudo bash -
     apt-get install -y nodejs
     npm install -g webpack-dev-server
     npm run build
