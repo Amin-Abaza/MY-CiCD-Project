@@ -264,17 +264,13 @@ jobs:
             sudo apt-get install -y python3 
             sudo apt-get install -y ansible 
             sudo apt-get install -y awscli 
-            npm install
-            sudo apt-get install
+            sudo apt-get install -y npm
       - run: 
           name: "install nodjs 13 from source"
           command: |
-              cd ~
-              curl -sL https://deb.nodesource.com/setup_13.x -o /tmp/nodesource_setup.sh
-              nano /tmp/nodesource_setup.sh
-              sudo bash /tmp/nodesource_setup.sh
-              sudo apt install nodejs
-              node -v
+              curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+              sudo apt-get install -y nodejs
+
 
 
 
