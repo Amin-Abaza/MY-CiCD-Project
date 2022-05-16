@@ -29,10 +29,7 @@
           curl -sL https://rpm.nodesource.com/setup_13.x | bash -
           apt-get install -y nodejs
     
-    - name: "install pm2"
-      become: true
-      shell: |
-           npm i -g pm2
+    
   # Get the environment variables from CircleCI and add to the EC2 instance
   environment:
     - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION')}}"  
