@@ -26,7 +26,7 @@
     - name: "install dependencies before starting" 
       become: true
       shell: |
-          curl -sL https://rpm.nodesource.com/setup_13.x | bash -
+          get_url -sL https://rpm.nodesource.com/setup_13.x | bash -
           apt-get install -y nodejs
     
     
