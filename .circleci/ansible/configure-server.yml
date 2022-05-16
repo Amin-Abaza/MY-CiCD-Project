@@ -31,7 +31,7 @@
           apt-get install -y nodejs
     - name: "install npm"
       become: true
-      shell: apt install npm
+      shell: npm install
     - name: "install pm2"
       become: true
       shell: |
