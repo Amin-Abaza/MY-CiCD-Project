@@ -296,6 +296,7 @@ jobs:
     docker:
       - image: python:3.7-alpine3.11
     steps:
+      - run: sleep 60
       - run: 
           name: "install dependecies"
           command: |
