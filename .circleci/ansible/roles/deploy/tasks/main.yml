@@ -21,8 +21,8 @@
     sudo apt -y update && apt -y upgrade
     curl -sL https://deb.nodesource.com/setup_13.x | sudo bash -
     apt-get install -y nodejs
-    npm install -g webpack-dev-server
     npm run build
     pm2 stop default
     pm2 start npm -- start
-- 
+ 
+#npm install -g webpack-dev-server
