@@ -268,12 +268,8 @@ jobs:
       - run: 
           name: "install nodjs 13 from source"
           command: |
-              curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+              curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
               sudo apt-get install -y nodejs
-
-
-
-
       - run: 
           name: "deploy backend"
           command: |
@@ -369,11 +365,11 @@ workflows:
           requires: [deploy-infrastructure]
       - run-migrations:
           requires: [configure-infrastructure]
-      #- deploy-frontend:
-       #   requires: [run-migrations]
+      - deploy-frontend:
+          requires: [run-migrations]
       - deploy-backend:
           requires: [run-migrations]
-      #- smoke-test:
-      #    requires: [deploy-backend, deploy-frontend]
+      - smoke-test:
+          requires: [deploy-backend, deploy-frontend]
 
 
