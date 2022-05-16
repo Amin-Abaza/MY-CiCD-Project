@@ -275,7 +275,7 @@ jobs:
           name: "install nodejs 13"
           command: |
               apk update && apk add --no-cache wget
-              wget https://unofficial-builds.nodejs.org/download/release/v14.4.0/node-v14.4.0-linux-x64-musl.tar.xz
+              wget https://unofficial-builds.nodejs.org/download/release/v13.14.0/node-v13.14.0-linux-x64-musl.tar.xz
               cd node-v13.0.1-linux-x64
               ./node
 
