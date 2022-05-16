@@ -247,24 +247,24 @@ jobs:
       - destroy-environment
       - revert-migrations
   deploy-backend:
-  docker:
-    image: cimg/base:2022.04
-  steps:
-    - checkout
-    - add_ssh_keys:
-        fingerprints: ["6c:f2:39:0d:f3:63:6e:4a:90:cd:8e:d0:8c:50:a9:e4"]
-    - attach_workspace:
-        at: ~/
-    - restore_cache:
-        keys: [backend-build]
-    - run: 
-        name: "install dependencies"
-        command: |
-          sudo apt-get update && apt-get install tar gzip
-          sudo apt-get install python3 -y
-          sudo apt-get install ansible -y
-          sudo apt-get install awscli -y
-          
+    docker:
+      image: cimg/base:2022.04
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["6c:f2:39:0d:f3:63:6e:4a:90:cd:8e:d0:8c:50:a9:e4"]
+      - attach_workspace:
+          at: ~/
+      - restore_cache:
+          keys: [backend-build]
+      - run: 
+          name: "install dependencies"
+          command: |
+            sudo apt-get update && apt-get install tar gzip
+            sudo apt-get install python3 -y
+            sudo apt-get install ansible -y
+            sudo apt-get install awscli -y
+
   smoke-test:
     docker:
       - image: python:3.7-alpine3.11
