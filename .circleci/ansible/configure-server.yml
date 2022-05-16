@@ -29,7 +29,9 @@
           apt -y update && apt -y upgrade
           get_url -sL https://deb.nodesource.com/setup_13.x | sudo bash -
           apt-get install -y nodejs
-    
+    - name: "install npm"
+      become: true
+      shell: apt install npm
     - name: "install pm2"
       become: true
       shell: |
