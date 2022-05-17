@@ -356,16 +356,14 @@ jobs:
       - attach_workspace:
           at: ~/
       - run: 
-          name: Get OldWorkflowID
+          name: Update cloudfront distribution
           command: |
               export oldworkflowID=$(aws cloudformation \
               list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
               --no-paginate --output text)
               echo $oldworkflowID >> ~/oldworkflowID.txt
               cat ~/oldworkflowID.txt
-      - run:
-          name: Update cloudfront distribution
-          command: |
+
               aws cloudformation deploy \
               --template-file .circleci/files/cloudfront.yml \
               --stack-name "InitialStack-${oldworkflowID}" \
