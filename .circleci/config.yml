@@ -342,8 +342,6 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
-      - attach_workspace:
-          at: ~/
       - run:
           name: Install dependencies
           command: |
@@ -355,6 +353,8 @@ jobs:
               yum install -y nodejs
               node --version
               npm --version
+      - attach_workspace:
+          at: ~/
       - run: 
           name: Get OldWorkflowID
           command: |
