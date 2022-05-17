@@ -276,9 +276,9 @@ jobs:
             cd backend
             npm i
             npm run build
-            cd ..
+            cd ../
+            tar -cvzf artifact.tar.gz backend
             
-            tar -C backend -cvzf artifact.tar.gz /dist package*
             sudo cp artifact.tar.gz .circleci/ansible/roles/deploy/files
             cd .circleci/ansible/roles/deploy/files
             pwd
@@ -343,7 +343,7 @@ jobs:
 
 
 
-
+#tar -C backend -cvzf artifact.tar.gz /dist package*
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
