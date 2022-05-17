@@ -358,11 +358,11 @@ jobs:
       - run: 
           name: Get OldWorkflowID
           command: |
-              export oldworkflowID=$(aws cloudformation list-exports \
-              --query "Export[?Name==\ `WorkflowID\`].Value" \
+              export oldworkflowID=$(aws cloudformation \
+              list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
               --no-paginate --output text)
               echo $oldworkflowID >> ~/oldworkflowID.txt
-              cat ~/oldworkflowID
+              cat ~/oldworkflowID.txt
       - run:
           name: Update cloudfront distribution
           command: |
@@ -375,12 +375,13 @@ jobs:
               echo current workfowID: $${CIRCLE_WORKFLOW_ID:0:7}
       - destroy-environment
       - revert-migrations
+
      
       
 
 
 
-#tar -C backend -cvzf artifact.tar.gz /dist package*
+
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
