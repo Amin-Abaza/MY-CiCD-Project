@@ -356,6 +356,15 @@ jobs:
       - attach_workspace:
           at: ~/
       - run: 
+          name: get oldworkflow
+          command: |
+            OldWorkFlowID=$(aws cloudformation \
+              list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
+              --no-paginate --output text)
+            curl https://kvdb.io/PtGbsDNVRzENpoUDXwyCBH/Oldworkflowid -d '$OldWorkFlowID'
+            echo OldWorkflowID : "${OldWorkFlowID}"
+  
+      - run: 
           name: Update cloudfront distribution
           command: |
               aws cloudformation deploy \
@@ -365,6 +374,41 @@ jobs:
               --tags project=udapeople
       - destroy-environment
       - revert-migrations
+  cleanup:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+              yum install -y tar gzip
+              yum install -y python3
+              pip3 --no-cache-dir install --upgrade awscli
+              pip3 install ansible
+              curl -sL https://rpm.nodesource.com/setup_13.x | bash -
+              yum install -y nodejs
+              node --version
+              npm --version
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Fetch the Old workflow ID
+          command: |
+             OldWorkflowID= curl https://kvdb.io/PtGbsDNVRzENpoUDXwyCBH/Oldworkflowid
+              
+
+              if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "${OldWorkflowID}" ]]
+              then
+                  aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
+                  aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
+                  aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
+              else
+                 echo ' ------------------------- can't cleanup ----------------------- '
+              fi
+      - destroy-environment
+      - revert-migrations
+
 
      
       
@@ -400,4 +444,5 @@ workflows:
           requires: [deploy-backend, deploy-frontend]
       - cloudfront-update:
           requires: [smoke-test]
-
+      - cleanup:
+          requires: [cloudfront-update]
