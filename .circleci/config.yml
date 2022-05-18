@@ -395,7 +395,7 @@ jobs:
       - run:
           name: Fetch the Old workflow ID
           command: |
-             OldWorkflowID= curl https://kvdb.io/PtGbsDNVRzENpoUDXwyCBH/Oldworkflowid
+             export OldWorkflowID= curl https://kvdb.io/PtGbsDNVRzENpoUDXwyCBH/Oldworkflowid
               
 
               if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "${OldWorkflowID}" ]]
