@@ -358,7 +358,7 @@ jobs:
       - run: 
           name: get oldworkflow
           command: |
-            OldWorkFlowID=$(aws cloudformation \
+            export OldWorkFlowID=$(aws cloudformation \
               list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
               --no-paginate --output text)
             curl https://kvdb.io/PtGbsDNVRzENpoUDXwyCBH/Oldworkflowid -d ${OldWorkFlowID}
@@ -395,10 +395,8 @@ jobs:
       - run:
           name: Fetch the Old workflow ID
           command: |
-              OldWorkflowID= curl https://kvdb.io/PtGbsDNVRzENpoUDXwyCBH/Oldworkflowid
-              
-              
-
+              export OldWorkflowID=$(curl --insecure https://kvdb.io/PtGbsDNVRzENpoUDXwyCBH/Oldworkflowid)
+    
               if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "${OldWorkflowID}" ]]
               then
                   aws s3 rm s3://${OldWorkflowID} --recursive
