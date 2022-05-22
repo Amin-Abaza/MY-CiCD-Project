@@ -1,2 +1,2 @@
 URL01 :  https://github.com/Amin-Abaza/MY-CiCD-Project
-URL02 : https://s3.console.aws.amazon.com/s3/buckets/udapeople-b09315e?region=us-east-1&tab=objects
+URL02 : https://s3.console.aws.amazon.com/s3/buckets/udapeople-06b192f?region=us-east-1&tab=objects
