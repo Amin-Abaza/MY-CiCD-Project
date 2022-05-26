@@ -1,0 +1,3 @@
+S3 Bucket URL: http://udapeople-dd8a605.s3-website-us-east-1.amazonaws.com/#/employees
+Cloud Front URL : http://d2fd0qsufouq3w.cloudfront.net/#/employees
+Promethues Server : http://ec2-3-88-163-129.compute-1.amazonaws.com:9090/targets
