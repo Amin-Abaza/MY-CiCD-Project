@@ -2,4 +2,4 @@ S3 bucket : https://s3.console.aws.amazon.com/s3/buckets/udapeople-f650748?regio
 CloudFront URL : http://d1vpvezz6hthfp.cloudfront.net/
 backend application http://udapeople-f650748.s3-website-us-east-1.amazonaws.com/
 
-Prometheus server : http://ec2-34-204-43-44.compute-1.amazonaws.com:9090
+Prometheus server : http://ec2-50-19-152-18.compute-1.amazonaws.com:9090
