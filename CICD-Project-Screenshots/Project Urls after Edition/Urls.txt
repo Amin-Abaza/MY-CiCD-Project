@@ -1,0 +1,5 @@
+S3 bucket : https://s3.console.aws.amazon.com/s3/buckets/udapeople-c5e890c?region=us-east-1&tab=objects
+CloudFront URL : http://d10h5312nz4is9.cloudfront.net
+backend application http://udapeople-c5e890c.s3-website-us-east-1.amazonaws.com/
+
+Prometheus server : http://ec2-107-23-57-248.compute-1.amazonaws.com:9090/graph
